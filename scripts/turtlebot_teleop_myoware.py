@@ -19,19 +19,13 @@ def callback(data):
             twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = 0
         elif data == TURN_LEFT:
             twist.linear.x = 0; twist.linear.y = 0; twist.linear.z = 0
-            twist.angular.x = 1; twist.angular.y = 0; twist.angular.z = 0
+            twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = 1
         elif data == TURN_RIGHT:
             twist.linear.x = 0; twist.linear.y = 0; twist.linear.z = 0
-            twist.angular.x = -1; twist.angular.y = 0; twist.angular.z = 0
+            twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = -1
         pub.publish(twist)
     except:
         rospy.logfatal("Se ha producido una excepcion. Robot detenido.")
-
-    finally:
-        # Por seguridad, si hay cualquier fallo ponemos velocidades a 0
-        twist.linear.x = 0; twist.linear.y = 0; twist.linear.z = 0
-        twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = 0
-        pub.publish(twist)
     
 
 if __name__=="__main__":

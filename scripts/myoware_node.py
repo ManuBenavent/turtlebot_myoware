@@ -11,7 +11,7 @@ if __name__ == "__main__":
     pub = rospy.Publisher('/myoware_signal', UInt32, queue_size=5)
 
     while True:
-        rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
+        rlist, _, _ = select.select([sys.stdin], [], [], 5)
         if rlist:
             try:
                 key = int(sys.stdin.read(1))
@@ -21,6 +21,6 @@ if __name__ == "__main__":
                 key = STOP
         else:
             key = STOP
-        pub.publish(2)
+        pub.publish(key)
     
     
