@@ -17,6 +17,8 @@ moveBindings={
 }
 
 def callback(data):
+    global current_angular
+    global current_linear
     data = data.data
     try:
         if data in moveBindings.keys():
@@ -35,9 +37,9 @@ def callback(data):
             current_linear = target_linear
 
         if target_angular > current_angular:
-            current_angular = min( target_angular, current_angular + 0.1 )
+            current_angular = min( target_angular, current_angular + 0.25 )
         elif target_angular < current_angular:
-            current_angular = max( target_angular, current_angular - 0.1 )
+            current_angular = max( target_angular, current_angular - 0.25 )
         else:
             current_angular = target_angular
         # if data == STOP:
