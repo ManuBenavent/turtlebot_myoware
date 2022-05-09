@@ -1,30 +1,21 @@
 #!/usr/bin/env python
 
 import rospy
+import select, sys
+from myoware_constants import *
 from geometry_msgs.msg import Twist
 from std_msgs.msg import UInt32
 from kobuki_msgs.msg import BumperEvent
-from myoware_constants import *
-import select, sys
 
-linear_speed = .5
-angular_speed = 1
-
-moveBindings={
-    STOP:(0,0),
-    MOVE_FORWARD:(1,0),
-    TURN_LEFT:(0,1),
-    TURN_RIGHT:(0,-1)
-}
-
+# Callback datos myoware: actualiza la velocidad del turtlebot en funcion del movimiento recibido
 def callback(data):
     global current_angular
     global current_linear
     data = data.data
     try:
         if data in moveBindings.keys():
-            target_linear = moveBindings[data][0]*linear_speed
-            target_angular = moveBindings[data][1]*angular_speed
+            target_linear = moveBindings[data][0]*LINEAR_SPEED
+            target_angular = moveBindings[data][1]*ANGULAR_SPEED
         else:
             target_linear =  0
             target_angular = 0
