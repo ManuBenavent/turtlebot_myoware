@@ -3,21 +3,18 @@
 import rospy
 from std_msgs.msg import UInt32
 from myoware_constants import *
-import serial, time
 
-arduino = serial.Serial(PUERTO_SERIE, 9600)
-time.sleep(2)
-rawString = arduino.readline()
 estado = 1 # empieza avanzando
 
 if __name__ == "__main__":
     rospy.init_node('myoware_node')
     pub = rospy.Publisher('/myoware_signal', UInt32, queue_size=1)
 
-    while True:
+    with open('/home/manu/catkin_ws/src/turtlebot_myoware/emg/signal.txt') as f:
+        lines = f.readlines()
+        lines = [line.rstrip() for line in lines]
+    for valor in lines:
         try:
-                rawString = arduino.readline()
-                valor = rawString.decode("utf-8")
                 print(valor)
                 valores=valor.split()
 
@@ -30,7 +27,6 @@ if __name__ == "__main__":
                                 estado = 1
                                 command = STOP
                                 rospy.sleep(rospy.Duration(secs=1))
-                                arduino.flush()
                         else:
                                 command=STOP
 
@@ -43,7 +39,6 @@ if __name__ == "__main__":
                                 estado = 0
                                 command = STOP
                                 rospy.sleep(rospy.Duration(secs=1))
-                                arduino.flush()
                         else:
                                 command=STOP
                 
@@ -52,6 +47,8 @@ if __name__ == "__main__":
                 print (f"Estado: {estado_str}")
                 print (f"Command: {moveString[command]}")
                 pub.publish(command)
+                # 
+                rospy.sleep(rospy.Duration(secs=0.1))
         except:
                 rospy.logerr("Excepcion")
     

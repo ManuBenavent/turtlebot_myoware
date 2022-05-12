@@ -1,5 +1,5 @@
 const int potPinUno = 34;
-const int potPinDos = 35;
+const int potPinDos = 33;
 int EMGValue1 = 0;
 int EMGValue2 = 0;
 
@@ -23,6 +23,7 @@ void loop() {
   Serial.println(EMGValue2);
   //Serial.write(13);
   //Serial.write(10);
+  //delay(50);
 }
 
 
